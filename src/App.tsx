@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Navigation } from './components/Navigation';
 import { BackgroundEffects } from './components/BackgroundEffects';
@@ -9,9 +9,20 @@ import { PageTransition } from './components/PageTransition';
 import { usePageTransition } from './hooks/usePageTransition';
 import { ContactSection } from './components/ContactSection';
 import { AboutSection } from './components/AboutSection';
+import { Loader } from './components/Loader';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const { currentPage, isTransitioning, transition } = usePageTransition();
+
+  // Simulate loading time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Common animation props for all pages
   const pageAnimationProps = {
@@ -22,45 +33,53 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
-      <BackgroundEffects />
-      <Navigation 
-        onContact={() => transition('contact')}
-        onAbout={() => transition('about')}
-      />
-      
-      <AnimatePresence mode="wait">
-        {currentPage === 'home' && (
-          <motion.div key="home" {...pageAnimationProps}>
-            <HeroContent 
-              onViewProjects={() => transition('projects')} 
-              onContact={() => transition('contact')}
-            />
-          </motion.div>
-        )}
-        
-        {currentPage === 'projects' && (
-          <motion.div key="projects" {...pageAnimationProps}>
-            <ProjectsSection onBack={() => transition('home')} />
-          </motion.div>
-        )}
-
-        {currentPage === 'contact' && (
-          <motion.div key="contact" {...pageAnimationProps}>
-            <ContactSection onBack={() => transition('home')} />
-          </motion.div>
-        )}
-
-        {currentPage === 'about' && (
-          <motion.div key="about" {...pageAnimationProps}>
-            <AboutSection onBack={() => transition('home')} />
-          </motion.div>
-        )}
+    <>
+      <AnimatePresence>
+        {isLoading && <Loader />}
       </AnimatePresence>
 
-      <PageTransition isTransitioning={isTransitioning} />
-      <Cursor />
-    </div>
+      {!isLoading && (
+        <div className="relative min-h-screen bg-black text-white overflow-hidden">
+          <BackgroundEffects />
+          <Navigation 
+            onContact={() => transition('contact')}
+            onAbout={() => transition('about')}
+          />
+          
+          <AnimatePresence mode="wait">
+            {currentPage === 'home' && (
+              <motion.div key="home" {...pageAnimationProps}>
+                <HeroContent 
+                  onViewProjects={() => transition('projects')} 
+                  onContact={() => transition('contact')}
+                />
+              </motion.div>
+            )}
+            
+            {currentPage === 'projects' && (
+              <motion.div key="projects" {...pageAnimationProps}>
+                <ProjectsSection onBack={() => transition('home')} />
+              </motion.div>
+            )}
+
+            {currentPage === 'contact' && (
+              <motion.div key="contact" {...pageAnimationProps}>
+                <ContactSection onBack={() => transition('home')} />
+              </motion.div>
+            )}
+
+            {currentPage === 'about' && (
+              <motion.div key="about" {...pageAnimationProps}>
+                <AboutSection onBack={() => transition('home')} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <PageTransition isTransitioning={isTransitioning} />
+          <Cursor />
+        </div>
+      )}
+    </>
   );
 }
 
