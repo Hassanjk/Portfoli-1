@@ -8,7 +8,7 @@ interface NavigationProps {
 
 export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout }) => {
   return (
-    <nav className="fixed top-0 w-full z-50 px-8 py-6 backdrop-blur-sm">
+    <nav className="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <p className="text-sm tracking-widest text-neutral-500">MARTIN</p>
         

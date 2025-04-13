@@ -4,12 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-[#0A0A0A] text-white antialiased cursor-none;
+    @apply bg-[#0A0A0A] text-white antialiased;
   }
   
-  /* Hide cursor on buttons and links */
+  /* Normal cursor on buttons and links */
   a, button {
-    @apply cursor-none;
+    @apply cursor-pointer;
   }
 }
 

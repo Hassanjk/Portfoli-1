@@ -14,7 +14,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ isTransitioning 
       {slices.map((_, index) => (
         <motion.div
           key={index}
-          className="fixed inset-0 bg-[#0A0A0A] z-50"
+          className="fixed inset-0 bg-[#0A0A0A] z-[90]"
           style={{
             originY: index % 2 === 0 ? 0 : '100%',
             top: `${(index / slices.length) * 100}%`,

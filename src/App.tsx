@@ -4,7 +4,6 @@ import { Navigation } from './components/Navigation';
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { HeroContent } from './components/HeroContent';
 import { ProjectsSection } from './components/ProjectsSection';
-import { Cursor } from './components/Cursor';
 import { PageTransition } from './components/PageTransition';
 import { usePageTransition } from './hooks/usePageTransition';
 import { ContactSection } from './components/ContactSection';
@@ -76,7 +75,6 @@ function App() {
           </AnimatePresence>
 
           <PageTransition isTransitioning={isTransitioning} />
-          <Cursor />
         </div>
       )}
     </>
