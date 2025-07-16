@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { ProjectGrid } from './projects/ProjectGrid';
@@ -11,6 +11,11 @@ export const ProjectsSection: React.FC<{ onBack: () => void }> = ({ onBack }) =>
     setSelectedCategory,
     filteredProjects 
   } = useProjectFilters();
+
+  // Reset filters when component mounts
+  useEffect(() => {
+    setSelectedCategory('All');
+  }, [setSelectedCategory]);
 
   return (
     <motion.div

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Navigation } from './components/Navigation';
 import { BackgroundEffects } from './components/BackgroundEffects';
@@ -12,7 +12,7 @@ import { Loader } from './components/Loader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const { currentPage, isTransitioning, transition } = usePageTransition();
+  const { currentPage, isTransitioning, transition, cleanup } = usePageTransition();
 
   // Simulate loading time
   useEffect(() => {
@@ -23,12 +23,19 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      cleanup();
+    };
+  }, [cleanup]);
+
   // Common animation props for all pages
   const pageAnimationProps = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
     exit: { opacity: 0 },
-    transition: { duration: 0.3, ease: "easeInOut" } // Reduced from 0.5 to 0.3
+    transition: { duration: 0.3, ease: "easeInOut" }
   };
 
   return (
@@ -45,7 +52,12 @@ function App() {
             onAbout={() => transition('about')}
           />
           
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" onExitComplete={() => {
+            // Force cleanup of any lingering animations
+            if (typeof window !== 'undefined') {
+              window.scrollTo(0, 0);
+            }
+          }}>
             {currentPage === 'home' && (
               <motion.div key="home" {...pageAnimationProps}>
                 <HeroContent 
@@ -57,7 +69,7 @@ function App() {
             
             {currentPage === 'projects' && (
               <motion.div key="projects" {...pageAnimationProps}>
-                <ProjectsSection onBack={() => transition('home')} />
+                <ProjectsSection key="projects-section" onBack={() => transition('home')} />
               </motion.div>
             )}
 

@@ -7,4 +7,19 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'framer-motion': ['framer-motion'],
+          'lucide-react': ['lucide-react'],
+        }
+      }
+    }
+  },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  }
 });

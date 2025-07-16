@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useId } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { categories } from '../../data/projectData';
 
 interface ProjectFiltersProps {
@@ -11,6 +11,8 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
   selectedCategory,
   onCategoryChange,
 }) => {
+  const componentId = useId();
+  
   return (
     <div className="mb-12">
       <div className="flex flex-wrap gap-4">
@@ -27,13 +29,23 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
             }`}>
               {category}
             </span>
-            {selectedCategory === category && (
-              <motion.div
-                layoutId="activeCategory"
-                className="absolute inset-0 bg-white/10 rounded-full -z-10"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-              />
-            )}
+            <AnimatePresence mode="wait">
+              {selectedCategory === category && (
+                <motion.div
+                  layoutId={`activeCategory-${componentId}`}
+                  className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ 
+                    type: "spring", 
+                    bounce: 0.2, 
+                    duration: 0.4,
+                    layout: { duration: 0.2 }
+                  }}
+                />
+              )}
+            </AnimatePresence>
           </button>
         ))}
       </div>
