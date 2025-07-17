@@ -1,5 +1,5 @@
 import React, { useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Filter } from 'lucide-react';
 import { categories } from '../../data/projectData';
 
@@ -26,47 +26,32 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
           <motion.button
             key={category}
             onClick={() => onCategoryChange(category)}
-            className="relative group"
+            className="relative overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className={`relative z-10 text-sm tracking-wider px-6 py-3 rounded-full transition-all duration-300 border ${
+            <div className={`relative px-6 py-3 rounded-full text-sm tracking-wider font-medium transition-all duration-300 ${
               selectedCategory === category 
-                ? 'text-white border-blue-400/50 bg-blue-400/10' 
-                : 'text-neutral-400 hover:text-white border-neutral-700 hover:border-neutral-600 bg-neutral-800/30 hover:bg-neutral-800/50'
+                ? 'bg-blue-500/60 text-white shadow-lg shadow-blue-500/15 border border-blue-400/30' 
+                : 'bg-neutral-800/50 text-neutral-400 hover:bg-neutral-700/50 hover:text-white border border-neutral-700/50 hover:border-neutral-600/50'
             }`}>
               {category}
-            </span>
-            
-            <AnimatePresence mode="wait">
+              
+              {/* Selected state glow effect */}
               {selectedCategory === category && (
-                <>
-                  <motion.div
-                    layoutId={`activeCategory-${componentId}`}
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full border border-blue-400/30"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ 
-                      type: "spring", 
-                      bounce: 0.2, 
-                      duration: 0.4,
-                      layout: { duration: 0.2 }
-                    }}
-                  />
-                  <motion.div
-                    className="absolute inset-0 bg-blue-400/5 rounded-full blur-md"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1.2 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </>
+                <motion.div
+                  layoutId={`selected-glow-${componentId}`}
+                  className="absolute inset-0 bg-blue-500/30 rounded-full blur-sm -z-10"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.2 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                />
               )}
-            </AnimatePresence>
+            </div>
           </motion.button>
         ))}
       </div>
