@@ -9,6 +9,7 @@ import { usePageTransition } from './hooks/usePageTransition';
 import { ContactSection } from './components/ContactSection';
 import { AboutSection } from './components/AboutSection';
 import { Loader } from './components/Loader';
+import { Footer } from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,7 +46,7 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <div className="relative min-h-screen bg-black text-white overflow-hidden">
+        <div className="relative bg-black text-white overflow-hidden">
           <BackgroundEffects />
           <Navigation 
             onContact={() => transition('contact')}
@@ -59,29 +60,39 @@ function App() {
             }
           }}>
             {currentPage === 'home' && (
-              <motion.div key="home" {...pageAnimationProps}>
-                <HeroContent 
-                  onViewProjects={() => transition('projects')} 
-                  onContact={() => transition('contact')}
-                />
+              <motion.div key="home" {...pageAnimationProps} className="min-h-screen flex flex-col">
+                <div className="flex-1 flex flex-col">
+                  <HeroContent 
+                    onViewProjects={() => transition('projects')} 
+                    onContact={() => transition('contact')}
+                  />
+                </div>
+                <Footer />
               </motion.div>
             )}
             
             {currentPage === 'projects' && (
-              <motion.div key="projects" {...pageAnimationProps}>
+              <motion.div key="projects" {...pageAnimationProps} className="min-h-screen">
                 <ProjectsSection key="projects-section" onBack={() => transition('home')} />
+                <Footer compact />
               </motion.div>
             )}
 
             {currentPage === 'contact' && (
-              <motion.div key="contact" {...pageAnimationProps}>
-                <ContactSection onBack={() => transition('home')} />
+              <motion.div key="contact" {...pageAnimationProps} className="min-h-screen flex flex-col">
+                <div className="flex-1">
+                  <ContactSection onBack={() => transition('home')} />
+                </div>
+                <Footer />
               </motion.div>
             )}
 
             {currentPage === 'about' && (
-              <motion.div key="about" {...pageAnimationProps}>
-                <AboutSection onBack={() => transition('home')} />
+              <motion.div key="about" {...pageAnimationProps} className="min-h-screen flex flex-col">
+                <div className="flex-1">
+                  <AboutSection onBack={() => transition('home')} />
+                </div>
+                <Footer />
               </motion.div>
             )}
           </AnimatePresence>

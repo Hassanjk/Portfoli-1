@@ -27,7 +27,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onBack }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen pt-32 pb-16 px-8"
+      className="h-full pt-32 pb-16 px-8"
     >
       <div className="max-w-7xl mx-auto">
         <button
