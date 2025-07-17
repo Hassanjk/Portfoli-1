@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface NavigationProps {
   onContact: () => void;
   onAbout: () => void;
+  onHome: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout }) => {
+export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout, onHome }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -16,6 +17,11 @@ export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout }) =>
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleHome = () => {
+    onHome();
+    closeMobileMenu();
   };
 
   const handleAbout = () => {
@@ -42,6 +48,12 @@ export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout }) =>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
+            <button 
+              onClick={onHome}
+              className="text-sm tracking-widest text-neutral-500 hover:text-white transition-colors"
+            >
+              HOME
+            </button>
             <button 
               onClick={onAbout}
               className="text-sm tracking-widest text-neutral-500 hover:text-white transition-colors"
@@ -114,6 +126,15 @@ export const Navigation: React.FC<NavigationProps> = ({ onContact, onAbout }) =>
 
                 {/* Mobile Menu Items */}
                 <div className="flex flex-col flex-1 justify-center px-8 space-y-8">
+                  <motion.button 
+                    onClick={handleHome}
+                    className="text-2xl tracking-widest text-neutral-500 hover:text-white transition-colors text-left"
+                    whileHover={{ x: 10 }}
+                    transition={{ type: 'tween', duration: 0.2 }}
+                  >
+                    HOME
+                  </motion.button>
+                  
                   <motion.button 
                     onClick={handleAbout}
                     className="text-2xl tracking-widest text-neutral-500 hover:text-white transition-colors text-left"

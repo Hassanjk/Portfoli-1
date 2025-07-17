@@ -54,6 +54,7 @@ function App() {
           <Navigation 
             onContact={() => transition('contact')}
             onAbout={() => transition('about')}
+            onHome={() => transition('home')}
           />
           
           <AnimatePresence mode="wait" onExitComplete={() => {
