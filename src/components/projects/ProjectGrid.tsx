@@ -5,9 +5,10 @@ import { Project } from '../../types/project';
 
 interface ProjectGridProps {
   projects: Project[];
+  onProjectClick?: (project: Project) => void;
 }
 
-export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
+export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, onProjectClick }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -54,7 +55,11 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
             layout
             className="group"
           >
-            <ProjectCard project={project} index={index} />
+            <ProjectCard 
+              project={project} 
+              index={index} 
+              onClick={() => onProjectClick?.(project)}
+            />
           </motion.div>
         ))}
       </AnimatePresence>

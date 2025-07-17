@@ -6,14 +6,16 @@ import { Project } from '../../types/project';
 interface ProjectCardProps {
   project: Project;
   index?: number;
+  onClick?: () => void;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   return (
     <motion.div
-      className="group relative"
+      className="group relative cursor-pointer"
       whileHover={{ y: -8 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      onClick={onClick}
     >
       {/* Card Background with Gradient Border */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>

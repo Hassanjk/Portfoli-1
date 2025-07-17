@@ -4,15 +4,18 @@ import { Navigation } from './components/Navigation';
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { HeroContent } from './components/HeroContent';
 import { ProjectsSection } from './components/ProjectsSection';
+import { ProjectDetail } from './components/ProjectDetail';
 import { PageTransition } from './components/PageTransition';
 import { usePageTransition } from './hooks/usePageTransition';
 import { ContactSection } from './components/ContactSection';
 import { AboutSection } from './components/AboutSection';
 import { Loader } from './components/Loader';
 import { Footer } from './components/Footer';
+import { Project } from './types/project';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { currentPage, isTransitioning, transition, cleanup } = usePageTransition();
 
   // Simulate loading time
@@ -71,9 +74,22 @@ function App() {
               </motion.div>
             )}
             
-            {currentPage === 'projects' && (
+            {currentPage === 'projects' && !selectedProject && (
               <motion.div key="projects" {...pageAnimationProps} className="min-h-screen">
-                <ProjectsSection key="projects-section" onBack={() => transition('home')} />
+                <ProjectsSection 
+                  key="projects-section" 
+                  onProjectClick={setSelectedProject}
+                />
+                <Footer compact />
+              </motion.div>
+            )}
+
+            {currentPage === 'projects' && selectedProject && (
+              <motion.div key="project-detail" {...pageAnimationProps} className="min-h-screen">
+                <ProjectDetail 
+                  project={selectedProject} 
+                  onBack={() => setSelectedProject(null)} 
+                />
                 <Footer compact />
               </motion.div>
             )}

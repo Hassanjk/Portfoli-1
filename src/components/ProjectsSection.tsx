@@ -3,8 +3,13 @@ import { motion } from 'framer-motion';
 import { ProjectGrid } from './projects/ProjectGrid';
 import { ProjectFilters } from './projects/ProjectFilters';
 import { useProjectFilters } from '../hooks/useProjectFilters';
+import { Project } from '../types/project';
 
-export const ProjectsSection: React.FC = () => {
+interface ProjectsSectionProps {
+  onProjectClick?: (project: Project) => void;
+}
+
+export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onProjectClick }) => {
   const { 
     selectedCategory,
     setSelectedCategory,
@@ -83,7 +88,7 @@ export const ProjectsSection: React.FC = () => {
 
         {/* Enhanced Projects Grid */}
         <motion.div variants={itemVariants}>
-          <ProjectGrid projects={filteredProjects} />
+          <ProjectGrid projects={filteredProjects} onProjectClick={onProjectClick} />
         </motion.div>
       </motion.div>
     </motion.div>
